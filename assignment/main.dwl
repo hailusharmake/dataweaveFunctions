@@ -1,32 +1,42 @@
 %dw 2.0
 output application/json
-/*  "EMPLOYE_EXPORT_UCN": [
-    {
-      "EMP_ID": 64,
-      "EMP_SIREN": "83956750",
-      "EMP_DATE_EXPORT": "2023-03-31T08:20:02.000Z"
-    },
-    {
-      "EMP_ID": 64,
-      "EMP_SIREN": "83956750",
-      "EMP_DATE_EXPORT": "2023-04-30T13:28:02.000Z"
-    },
-    {
-      "EMP_ID": 84,
-      "EMP_SIREN": "35255221",
-      "EMP_DATE_EXPORT": "2023-04-19T07:24:00.000Z"
-    }
-  ]
-}
-*/
+/*[
+  {
+    "oderId": "9987456",
+    "componentId": "44567889",
+    "operation": "add"
+  }
+]*/
+/*[
+  {
+    "HeaderContNum": "00501"
+  },
+  {
+    "HeaderContNum": "00501"
+  },
+  {
+    "HeaderContNum": "00501"
+  },
+  {
+    "HeaderContNum": "00501"
+  },
+  {
+    "HeaderContNum": "00501"
+  }
+]*/
+/*[
+  {
+    "id": "594585.1, 533943.1, 594602.1, 765114.1",
+    "message": "Error converting data type nvarchar to int.",
+    "table": "Data"
+  },
+  {
+    "id": "594586.1, 533944.1, 594603.1, 765115.1",
+    "message": "type nvarchar to int1.",
+    "table": "Data"
+  }
+]*/
 ---
-{
-    "EMPLOYE_EXPORT_UCN": (payload.EMPLOYE_EXPORT_UCN map (item) -> {
-        "EMP_ID": item.EMP_ID,
-        "EMP_SIREN": item.EMP_SIREN,
-        "EMP_DATE_EXPORT": item.EMP_DATE_EXPORT 
-    }) 
-distinctBy (value) -> value.EMP_ID
-        
-    
-}
+//payload distinctBy ((item, index) -> item.oderId) filter ((item, index) -> item.operation == "add"
+//load flatMap ((item) -> item.HeaderContNum map (item) -> "headernum":item)
+strict groupBy (item) -> item.message mapObject ((value, key, index) -> )
